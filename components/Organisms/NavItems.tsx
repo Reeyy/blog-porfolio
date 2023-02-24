@@ -2,24 +2,21 @@ import { FC } from 'react';
 import Link from 'next/link';
 import { AiOutlineDashboard } from 'react-icons/ai';
 interface Props {
-  name: string;
+  label: string;
   href: string;
   icon: JSX.Element;
 }
 
 const NavItems: FC<Props> = ({
-  name = 'Dashboard',
+  label = 'Dashboard',
   href = '/admin',
   icon = <AiOutlineDashboard size={24} />,
 }): JSX.Element => {
   return (
     <li>
-      <Link
-        className='flex item-center text-highlight-light dark:text-highlight-dark text-xl p-3 hover:scale-[0.98] transition '
-        href={href}
-      >
+      <Link className='nav-items' href={href}>
         {icon}
-        <span className='ml-2'>{name}</span>
+        <span className='ml-2'>{label}</span>
       </Link>
     </li>
   );

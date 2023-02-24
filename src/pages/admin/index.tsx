@@ -1,12 +1,13 @@
 import NavAdmin from 'components/Organisms/NavAdmin';
+import { navItems } from 'constant';
 import { NextPage } from 'next';
 
 interface Props {}
 
 const AdminLayout: NextPage<Props> = () => {
   return (
-    <div className=''>
-      <NavAdmin />
+    <div>
+      <NavAdmin navItems={navItems} />
     </div>
   );
 };

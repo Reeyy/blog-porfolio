@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.nav-items {
+  @apply flex items-center text-highlight-light dark:text-highlight-dark text-xl p-3 hover:scale-[0.98] transition;
+}
