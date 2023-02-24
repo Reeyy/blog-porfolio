@@ -4,6 +4,7 @@ import {
   AiOutlineTeam,
   AiOutlineDashboard,
 } from 'react-icons/ai';
+import { RiDashboardFill, RiMailAddFill } from 'react-icons/ri';
 
 // ! Path: nav admin items
 export const navItems = [
@@ -20,7 +21,12 @@ export const navItems = [
   {
     label: 'Comments',
     href: '/admin/comments',
-    icon: <AiOutlineMail size={24} />,
+    icon: <RiMailAddFill size={24} />,
+  },
+  {
+    label: 'Contacts',
+    href: '/admin/contacts',
+    icon: <RiDashboardFill size={24} />,
   },
 ];
 // * END Path: nav admin items
