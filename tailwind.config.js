@@ -19,10 +19,15 @@ module.exports = {
           light: '#1f1f1f',
         },
         secondary: {
-          dark: '#707070',
+          dark: '#1D283A0',
           light: '#e6e6e6',
         },
+
         action: '#3B82F6',
+      },
+      transitionProperty: {
+        height: 'height',
+        width: 'width',
       },
     },
   },

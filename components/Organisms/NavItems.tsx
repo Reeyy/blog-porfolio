@@ -1,22 +1,28 @@
 import { FC } from 'react';
 import Link from 'next/link';
-import { AiOutlineDashboard } from 'react-icons/ai';
+import clsx from 'clsx';
+import { useRouter } from 'next/router';
+
 interface Props {
-  label: string;
+  label?: string | null;
   href: string;
   icon: JSX.Element;
 }
+const NavItems: FC<Props> = ({ label, href, icon }): JSX.Element => {
+  const router = useRouter();
+  const classes = clsx('nav-items rounded-l-md rounded-r-xl rounded-t-md', {
+    'bg-[#000000]': href === router.pathname,
+  });
 
-const NavItems: FC<Props> = ({
-  label = 'Dashboard',
-  href = '/admin',
-  icon = <AiOutlineDashboard size={24} />,
-}): JSX.Element => {
   return (
     <li>
-      <Link className='nav-items' href={href}>
+      <Link className={classes} href={href}>
         {icon}
-        <span className='ml-2'>{label}</span>
+        {label ? (
+          <span className='ml-2  transition-all ease-in-out text-sm text-white font-semibold leading-none'>
+            {label}
+          </span>
+        ) : null}
       </Link>
     </li>
   );

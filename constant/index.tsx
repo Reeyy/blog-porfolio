@@ -1,32 +1,37 @@
 import {
-  AiOutlineContainer,
-  AiOutlineMail,
-  AiOutlineTeam,
-  AiOutlineDashboard,
-} from 'react-icons/ai';
-import { RiDashboardFill, RiMailAddFill } from 'react-icons/ri';
+  RiDashboardFill,
+  RiMailAddFill,
+  RiContactsBookFill,
+} from 'react-icons/ri';
+import { FaUserInjured } from 'react-icons/fa';
+import { IoCreate } from 'react-icons/io5';
 
 // ! Path: nav admin items
 export const navItems = [
   {
     label: 'Dashboard',
     href: '/admin',
-    icon: <AiOutlineDashboard size={24} />,
+    icon: <RiDashboardFill style={{ color: 'white' }} size={24} />,
+  },
+  {
+    label: 'Posts',
+    href: '/admin/posts',
+    icon: <IoCreate style={{ color: 'white' }} size={24} />,
   },
   {
     label: 'Users',
     href: '/admin/users',
-    icon: <AiOutlineTeam size={24} />,
+    icon: <FaUserInjured style={{ color: 'white' }} size={24} />,
   },
   {
     label: 'Comments',
     href: '/admin/comments',
-    icon: <RiMailAddFill size={24} />,
+    icon: <RiMailAddFill style={{ color: 'white' }} size={24} />,
   },
   {
     label: 'Contacts',
     href: '/admin/contacts',
-    icon: <RiDashboardFill size={24} />,
+    icon: <RiContactsBookFill style={{ color: 'white' }} size={24} />,
   },
 ];
 // * END Path: nav admin items

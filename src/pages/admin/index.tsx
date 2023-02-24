@@ -1,15 +1,14 @@
-import NavAdmin from 'components/Organisms/NavAdmin';
-import { navItems } from 'constant';
+import AdminLayout from 'components/Organisms/layout/AdminLayout';
 import { NextPage } from 'next';
 
 interface Props {}
 
-const AdminLayout: NextPage<Props> = () => {
+const AdminPage: NextPage<Props> = () => {
   return (
-    <div>
-      <NavAdmin navItems={navItems} />
-    </div>
+    <AdminLayout>
+      <div>Admin</div>
+    </AdminLayout>
   );
 };
 
-export default AdminLayout;
+export default AdminPage;
