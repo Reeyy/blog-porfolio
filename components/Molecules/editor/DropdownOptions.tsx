@@ -20,7 +20,7 @@ const DropdownOptions: FC<Props> = ({ head, options }): JSX.Element => {
           <ul className='p-3 space-y-3'>
             {options.map(({ label, onClick }, idx) => {
               return (
-                <li key={idx} onMouseDown={onClick}>
+                <li className='font-semibold' key={idx} onMouseDown={onClick}>
                   {label}
                 </li>
               );

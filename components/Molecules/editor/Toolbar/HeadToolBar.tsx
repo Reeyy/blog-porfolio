@@ -13,7 +13,7 @@ const HeadToolBar: FC<Props> = ({ editor }): JSX.Element => {
   };
   return (
     <div className='flex items-center space-x-2 text-primary-dark dark:text-primary'>
-      <p>{getLabel()}</p>
+      <p className='font-semibold '>{getLabel()}</p>
       <AiFillCaretDown />
     </div>
   );
