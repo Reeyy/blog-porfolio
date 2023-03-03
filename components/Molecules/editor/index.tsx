@@ -1,5 +1,11 @@
 import { FC, useEffect, useState } from 'react';
-import { useEditor, EditorContent, getMarkRange, Range } from '@tiptap/react';
+import {
+  useEditor,
+  EditorContent,
+  getMarkRange,
+  Range,
+  ReactNodeViewRenderer,
+} from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import ToolBar from './Toolbar';
 import Underline from '@tiptap/extension-underline';
@@ -7,15 +13,27 @@ import Placeholder from '@tiptap/extension-Placeholder';
 import Link from '@tiptap/extension-link';
 import Youtube from '@tiptap/extension-youtube';
 import EditLink from './EditLink';
+import css from 'highlight.js/lib/languages/css';
+import js from 'highlight.js/lib/languages/javascript';
+import ts from 'highlight.js/lib/languages/typescript';
+import html from 'highlight.js/lib/languages/xml';
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+import { lowlight } from 'lowlight';
 
 interface Props {}
-
 const Editor: FC<Props> = (props): JSX.Element => {
+  lowlight.registerLanguage('html', html);
+  lowlight.registerLanguage('css', css);
+  lowlight.registerLanguage('js', js);
+  lowlight.registerLanguage('ts', ts);
   const [selectionRange, setSelectionRange] = useState<Range>();
   const editor = useEditor({
     extensions: [
       StarterKit,
       Underline,
+      CodeBlockLowlight.configure({
+        lowlight,
+      }),
       Link.configure({
         autolink: false,
         linkOnPaste: true,
