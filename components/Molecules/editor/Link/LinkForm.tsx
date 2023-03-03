@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { ValidUrl } from 'utils/ValidUrl';
 export type LinkOption = {
   url: string;
@@ -7,11 +7,16 @@ export type LinkOption = {
 interface Props {
   visible: boolean;
   onSubmit(link: LinkOption): void;
+  intialState?: LinkOption;
 }
 
-const LinkForm: FC<Props> = ({ visible, onSubmit }): JSX.Element | null => {
+const LinkForm: FC<Props> = ({
+  visible,
+  intialState,
+  onSubmit,
+}): JSX.Element | null => {
   const [url, setUrl] = useState<LinkOption>({ url: '', openInNewTab: false });
-  if (!visible) return null;
+
   const handleSubmit = () => {
     if (!url.url.trim()) return;
     onSubmit({ ...url, url: ValidUrl(url.url) });
@@ -21,7 +26,13 @@ const LinkForm: FC<Props> = ({ visible, onSubmit }): JSX.Element | null => {
   const resetForm = () => {
     setUrl({ url: '', openInNewTab: false });
   };
+  useEffect(() => {
+    if (intialState) {
+      setUrl({ ...intialState });
+    }
+  }, [intialState]);
 
+  if (!visible) return null;
   return (
     <div className='rounded text-left bg-secondary-dark animate-reveal z-50 dark:shadow-secondary-dark shadow-md p-2'>
       <div className='flex items-center space-x-2'>
