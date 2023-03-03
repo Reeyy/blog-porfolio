@@ -22,6 +22,7 @@ import {
 import { RiDoubleQuotesL } from 'react-icons/ri';
 import InsertLink from '../Link/InsertLink';
 import { LinkOption } from '../Link/LinkForm';
+import YoutubePreview from '../YoutubePreview';
 
 interface Props {
   editor: Editor | null;
@@ -75,6 +76,9 @@ const ToolBar: FC<Props> = ({ editor }): JSX.Element | null => {
     if (openInNewTab) {
       commands.setLink({ href: url, target: '_blank' });
     } else commands.setLink({ href: url });
+  };
+  const handleYoutubePreview = (url: string) => {
+    editor.chain().focus().setYoutubeVideo({ src: url }).run();
   };
   return (
     <div className='flex items-center bg-secondary-light p-2 rounded-md gap-x-2'>
@@ -142,9 +146,7 @@ const ToolBar: FC<Props> = ({ editor }): JSX.Element | null => {
         <Button>
           <BsImageFill title='Image' />
         </Button>
-        <Button>
-          <BsYoutube title='Youtube' />
-        </Button>
+        <YoutubePreview onSubmit={handleYoutubePreview} />
       </div>
     </div>
   );
