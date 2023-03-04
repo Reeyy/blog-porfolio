@@ -1,4 +1,5 @@
 import '@/styles/globals.css';
+import '@/styles/highlight.css';
 import type { AppProps } from 'next/app';
 import { Montserrat } from '@next/font/google';
 

@@ -13,19 +13,44 @@ import Placeholder from '@tiptap/extension-Placeholder';
 import Link from '@tiptap/extension-link';
 import Youtube from '@tiptap/extension-youtube';
 import EditLink from './EditLink';
-import css from 'highlight.js/lib/languages/css';
+import scss from 'highlight.js/lib/languages/scss';
+import stylus from 'highlight.js/lib/languages/stylus';
+
 import js from 'highlight.js/lib/languages/javascript';
 import ts from 'highlight.js/lib/languages/typescript';
-import html from 'highlight.js/lib/languages/xml';
+import json from 'highlight.js/lib/languages/json';
+import css from 'highlight.js/lib/languages/css';
+import xml from 'highlight.js/lib/languages/xml';
+import md from 'highlight.js/lib/languages/markdown';
+
+import bash from 'highlight.js/lib/languages/bash';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { lowlight } from 'lowlight';
 
 interface Props {}
+
+// CSS and friends
+lowlight.registerLanguage('css', css);
+lowlight.registerLanguage('scss', scss);
+lowlight.registerLanguage('stylus', stylus);
+// JS and friends
+lowlight.registerLanguage('js', js);
+lowlight.registerLanguage('javascript', js);
+lowlight.registerLanguage('jsx', js);
+lowlight.registerLanguage('ts', ts);
+lowlight.registerLanguage('tsx', ts);
+lowlight.registerLanguage('typescript', ts);
+lowlight.registerLanguage('json', json);
+
+// Bash
+lowlight.registerLanguage('bash', bash);
+
+// HTML and friends
+lowlight.registerLanguage('html', xml);
+lowlight.registerLanguage('xml', xml);
+lowlight.registerLanguage('md', md);
+lowlight.registerLanguage('markdown', md);
 const Editor: FC<Props> = (props): JSX.Element => {
-  lowlight.registerLanguage('html', html);
-  lowlight.registerLanguage('css', css);
-  lowlight.registerLanguage('js', js);
-  lowlight.registerLanguage('ts', ts);
   const [selectionRange, setSelectionRange] = useState<Range>();
   const editor = useEditor({
     extensions: [

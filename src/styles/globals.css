@@ -15,97 +15,11 @@
   height: 0;
   pointer-events: none;
 }
-.hljs-comment,
-.hljs-quote {
-  color: #616161;
-  font-style: italic;
-}
-
-.hljs {
+pre code.hljs {
   display: block;
   overflow-x: auto;
-  padding: 0.5em;
-  color: #abb2bf;
-  background: #282c34;
+  padding: 1em;
 }
-
-/* Keyword */
-.hljs-keyword {
-  color: #c678dd;
-}
-
-/* Function name */
-.hljs-function {
-  color: #61afef;
-}
-
-/* String */
-.hljs-string {
-  color: #98c379;
-}
-
-/* Number */
-.hljs-number {
-  color: #d19a66;
-}
-
-/* Comment */
-.hljs-comment {
-  color: #5c6370;
-  font-style: italic;
-}
-
-/* Operator */
-.hljs-operator {
-  color: #56b6c2;
-}
-
-/* Punctuation */
-.hljs-punctuation {
-  color: #abb2bf;
-}
-
-/* Class name */
-.hljs-class {
-  color: #e5c07b;
-}
-
-/* Built-in or library object */
-.hljs-built_in {
-  color: #dcdcaa;
-}
-
-/* Attribute name */
-.hljs-attr {
-  color: #d19a66;
-}
-
-/* Tag name */
-.hljs-tag {
-  color: #e06c75;
-}
-
-/* CSS selector */
-.hljs-selector {
-  color: #d19a66;
-}
-
-/* Type name */
-.hljs-type {
-  color: #e5c07b;
-}
-
-/* Interface name */
-.hljs-title {
-  color: #e5c07b;
-}
-
-/* Enum name */
-.hljs-params {
-  color: #abb2bf;
-}
-
-/* Decorator name */
-.hljs-decorator {
-  color: #d19a66;
+code.hljs {
+  padding: 3px 5px;
 }
