@@ -18,7 +18,7 @@ const Button: FC<Props> = ({
 }): JSX.Element => {
   const getActiveClass = useCallback((): string => {
     if (active) {
-      return 'dark:bg-priamry dark:text-primary-dark bg-primary-dark';
+      return 'bg-white text-secondary-dark';
     } else return 'text-secondary-light bg-secondary-dark';
   }, [active]);
 

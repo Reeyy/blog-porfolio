@@ -5,3 +5,21 @@
 .nav-items {
   @apply flex items-center text-highlight-light dark:text-highlight-dark text-xl p-3 hover:scale-[0.98] transition;
 }
+/* Basic editor styles */
+
+/* Placeholder (at the top) */
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+pre code.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 1em;
+}
+code.hljs {
+  padding: 3px 5px;
+}
