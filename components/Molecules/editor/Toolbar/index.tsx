@@ -26,11 +26,15 @@ import YoutubePreview from '../YoutubePreview';
 
 interface Props {
   editor: Editor | null;
+  onOpenImageClick?: () => void;
 }
 
 // * END Toolbar options
 
-const ToolBar: FC<Props> = ({ editor }): JSX.Element | null => {
+const ToolBar: FC<Props> = ({
+  editor,
+  onOpenImageClick,
+}): JSX.Element | null => {
   if (!editor) return null;
   // ! Toolbar options
   const ToolBarOptions = [
@@ -77,6 +81,10 @@ const ToolBar: FC<Props> = ({ editor }): JSX.Element | null => {
       commands.setLink({ href: url, target: '_blank' });
     } else commands.setLink({ href: url });
   };
+  /**
+   * It sets the focus on the editor and then sets the youtube video.
+   * @param {string} url - The URL of the YouTube video.
+   */
   const handleYoutubePreview = (url: string) => {
     editor.chain().focus().setYoutubeVideo({ src: url }).run();
   };
@@ -143,7 +151,7 @@ const ToolBar: FC<Props> = ({ editor }): JSX.Element | null => {
         >
           <BsListOl title='Ordered List' />
         </Button>
-        <Button>
+        <Button onClick={onOpenImageClick}>
           <BsImageFill title='Image' />
         </Button>
         <YoutubePreview onSubmit={handleYoutubePreview} />

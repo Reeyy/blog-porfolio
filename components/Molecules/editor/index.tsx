@@ -1,11 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import {
-  useEditor,
-  EditorContent,
-  getMarkRange,
-  Range,
-  ReactNodeViewRenderer,
-} from '@tiptap/react';
+import { useEditor, EditorContent, getMarkRange, Range } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import ToolBar from './Toolbar';
 import Underline from '@tiptap/extension-underline';
@@ -25,7 +19,9 @@ import md from 'highlight.js/lib/languages/markdown';
 
 import bash from 'highlight.js/lib/languages/bash';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+
 import { lowlight } from 'lowlight';
+import ImageUploadGalery from './imageUploadModal';
 
 interface Props {}
 
@@ -52,9 +48,12 @@ lowlight.registerLanguage('md', md);
 lowlight.registerLanguage('markdown', md);
 const Editor: FC<Props> = (props): JSX.Element => {
   const [selectionRange, setSelectionRange] = useState<Range>();
+  const [showGalery, setShowGalery] = useState(false);
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        codeBlock: false,
+      }),
       Underline,
       CodeBlockLowlight.configure({
         lowlight,
@@ -101,13 +100,19 @@ const Editor: FC<Props> = (props): JSX.Element => {
     }
   }, [editor, selectionRange]);
   return (
-    <div className='p-3 bg-primary dark:bg-primary-dark transition'>
-      <ToolBar editor={editor} />
-      <div className='h-[1px] w-full bg-secondary-dark dark:bg-secondary-light my-3 ' />
-      {editor ? <EditLink editor={editor} /> : null}
+    <>
+      <div className='p-3 bg-primary dark:bg-primary-dark transition'>
+        <ToolBar onOpenImageClick={() => setShowGalery(true)} editor={editor} />
+        <div className='h-[1px] w-full bg-secondary-dark dark:bg-secondary-light my-3 ' />
+        {editor ? <EditLink editor={editor} /> : null}
 
-      <EditorContent editor={editor} />
-    </div>
+        <EditorContent editor={editor} />
+      </div>
+      <ImageUploadGalery
+        visible={showGalery}
+        onClose={() => setShowGalery(false)}
+      />
+    </>
   );
 };
 
