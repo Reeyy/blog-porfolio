@@ -1,6 +1,8 @@
 import { FC, useEffect, useState } from 'react';
 import { useEditor, EditorContent, getMarkRange, Range } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import TitapImage from '@tiptap/extension-image';
+
 import ToolBar from './Toolbar';
 import Underline from '@tiptap/extension-underline';
 import Placeholder from '@tiptap/extension-Placeholder';
@@ -21,7 +23,8 @@ import bash from 'highlight.js/lib/languages/bash';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 
 import { lowlight } from 'lowlight';
-import ImageUploadGalery from './imageUploadModal';
+import ImageUploadGalery, { ImageSelectionResult } from './imageUploadModal';
+import axios from 'axios';
 
 interface Props {}
 
@@ -49,6 +52,21 @@ lowlight.registerLanguage('markdown', md);
 const Editor: FC<Props> = (props): JSX.Element => {
   const [selectionRange, setSelectionRange] = useState<Range>();
   const [showGalery, setShowGalery] = useState(false);
+  const [images, setImages] = useState<{ src: string }[]>([]);
+  const [uploading, setUploading] = useState(false);
+
+  const getImages = async () => {
+    const { data } = await axios('/api/imageshandler');
+    setImages(data);
+  };
+  const handleImageUpload = async (image: File) => {
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('image', image);
+    const { data } = await axios.post('/api/imageshandler', formData);
+    setUploading(false);
+    setImages([data, ...images]);
+  };
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -76,6 +94,12 @@ const Editor: FC<Props> = (props): JSX.Element => {
           class: 'mx-auto rounded',
         },
       }),
+      TitapImage.configure({
+        allowBase64: true,
+        HTMLAttributes: {
+          class: 'mx-auto rounded',
+        },
+      }),
     ],
     editorProps: {
       handleClick(view, pos, event) {
@@ -99,6 +123,16 @@ const Editor: FC<Props> = (props): JSX.Element => {
       editor.commands.setTextSelection(selectionRange);
     }
   }, [editor, selectionRange]);
+  useEffect(() => {
+    getImages();
+  }, []);
+  const handleImageSelected = (result: ImageSelectionResult) => {
+    editor
+      ?.chain()
+      .focus()
+      .setImage({ src: result.src, alt: result.altText })
+      .run();
+  };
   return (
     <>
       <div className='p-3 bg-primary dark:bg-primary-dark transition'>
@@ -109,8 +143,12 @@ const Editor: FC<Props> = (props): JSX.Element => {
         <EditorContent editor={editor} />
       </div>
       <ImageUploadGalery
+        onSelect={handleImageSelected}
         visible={showGalery}
         onClose={() => setShowGalery(false)}
+        images={images}
+        uploading={uploading}
+        onFileSelect={handleImageUpload}
       />
     </>
   );
