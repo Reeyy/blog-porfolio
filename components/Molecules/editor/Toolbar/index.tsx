@@ -89,12 +89,12 @@ const ToolBar: FC<Props> = ({
     editor.chain().focus().setYoutubeVideo({ src: url }).run();
   };
   return (
-    <div className='flex items-center bg-secondary-light p-2 rounded-md gap-x-2'>
+    <div className='flex items-center  bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-80 border border-secondary-dark  p-2 rounded-md gap-x-2'>
       <DropdownOptions
         options={ToolBarOptions}
         head={<HeadToolBar editor={editor} />}
       />
-      <div className='h-9 w-[1px] bg-secondary-dark dark:bg-secondary-light mx-8' />
+      <div className='h-9 w-[2px] bg-secondary-dark  mx-8' />
       <div className='flex items-center space-x-4'>
         <Button
           active={editor.isActive('bold')}

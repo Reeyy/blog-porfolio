@@ -25,8 +25,22 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { lowlight } from 'lowlight';
 import ImageUploadGalery, { ImageSelectionResult } from './imageUploadModal';
 import axios from 'axios';
+import Seo, { SeoData } from './Seo';
+import ActionButton from 'components/Atoms/ActionButton';
+import Thumbnail from './Thumbnail';
 
-interface Props {}
+export interface FinalPost extends SeoData {
+  title: string;
+  content: string;
+  thumbnail?: File | string;
+}
+
+interface Props {
+  onSubmit: (post: FinalPost) => void;
+  initialPost?: FinalPost;
+  btnText?: string;
+  busy?: boolean;
+}
 
 // CSS and friends
 lowlight.registerLanguage('css', css);
@@ -49,11 +63,25 @@ lowlight.registerLanguage('html', xml);
 lowlight.registerLanguage('xml', xml);
 lowlight.registerLanguage('md', md);
 lowlight.registerLanguage('markdown', md);
-const Editor: FC<Props> = (props): JSX.Element => {
+const Editor: FC<Props> = ({
+  onSubmit,
+  busy = false,
+  btnText = 'submit',
+  initialPost,
+}): JSX.Element => {
   const [selectionRange, setSelectionRange] = useState<Range>();
   const [showGalery, setShowGalery] = useState(false);
   const [images, setImages] = useState<{ src: string }[]>([]);
+  const [seoInitialValue, setSeoInitialValue] = useState<SeoData>();
   const [uploading, setUploading] = useState(false);
+
+  const [post, setPost] = useState<FinalPost>({
+    title: '',
+    content: '',
+    meta: '',
+    tags: '',
+    slug: '',
+  });
 
   const getImages = async () => {
     const { data } = await axios('/api/imageshandler');
@@ -133,14 +161,71 @@ const Editor: FC<Props> = (props): JSX.Element => {
       .setImage({ src: result.src, alt: result.altText })
       .run();
   };
+  const updateTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setPost((prev) => ({ ...prev, title: value }));
+  };
+  const updateSeoData = (result: SeoData) => {
+    setPost((prev) => ({ ...prev, ...result }));
+  };
+  const updateThumbmail = (result: File | string) => {
+    setPost((prev) => ({ ...prev, thumbnail: result }));
+  };
+  const handleSubmit = () => {
+    if (!editor) return;
+    onSubmit({ ...post, content: editor.getHTML() });
+  };
+  useEffect(() => {
+    if (initialPost) {
+      setPost({ ...initialPost });
+      editor?.commands.setContent(initialPost.content);
+      const { meta, tags, slug } = initialPost;
+      setSeoInitialValue({ meta, tags, slug });
+    }
+  }, [editor?.commands, initialPost]);
+
   return (
     <>
       <div className='p-3 bg-primary dark:bg-primary-dark transition'>
-        <ToolBar onOpenImageClick={() => setShowGalery(true)} editor={editor} />
-        <div className='h-[1px] w-full bg-secondary-dark dark:bg-secondary-light my-3 ' />
+        <div className='sticky top-0 z-10   h-full w-full bg-secondary-light px-4 py-4 mb-2 rounded  '>
+          {/* thumbnail image  and og:image*/}
+          <div className='flex  items-center justify-between mb-3'>
+            <Thumbnail onChange={updateThumbmail} />
+            <div className='inline-block'>
+              <ActionButton
+                title={btnText}
+                busy={busy}
+                onClick={handleSubmit}
+              />
+            </div>
+          </div>
+          {/* title  */}
+          <input
+            onChange={updateTitle}
+            type='text'
+            value={post.title}
+            placeholder='Title....'
+            className='py-2 outline-none  text-secondary-dark z-40 bg-transparent  w-full border-0 border-b-[1px] border-secondary-dark text-3xl font-semibold italic mb-3'
+          />
+
+          <ToolBar
+            onOpenImageClick={() => setShowGalery(true)}
+            editor={editor}
+          />
+          <div className='h-[1px] w-full bg-secondary-dark dark:bg-secondary-light my-3 ' />
+        </div>
+
         {editor ? <EditLink editor={editor} /> : null}
 
-        <EditorContent editor={editor} />
+        <EditorContent
+          editor={editor}
+          className='min-h-[500px]  bg-secondary-light p-3 rounded-md mb-10'
+        />
+        <Seo
+          onChange={updateSeoData}
+          initialValue={seoInitialValue}
+          title={post.title}
+        />
       </div>
       <ImageUploadGalery
         onSelect={handleImageSelected}

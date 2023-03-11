@@ -6,9 +6,13 @@ interface Props {}
 
 const Create: FC<Props> = (props): JSX.Element => {
   return (
-    <AdminLayout>
+    <AdminLayout title='Create Post'>
       <div className='max-w-4xl mx-auto'>
-        <Editor />
+        <Editor
+          onSubmit={(post) => {
+            console.log('submit', post);
+          }}
+        />
       </div>
     </AdminLayout>
   );

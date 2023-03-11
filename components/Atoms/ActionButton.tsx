@@ -1,3 +1,5 @@
+import classNames from 'classnames';
+import clsx from 'clsx';
 import { FC, MouseEventHandler } from 'react';
 import { BiLoader } from 'react-icons/bi';
 
@@ -7,7 +9,8 @@ interface Props {
   disabled?: boolean;
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }
-
+const commonClassNames =
+  'text-highlight-dark bg-action px-6 py-2 font-semibold hover:scale-[0.97] duration-100 rounded w-full flex items-center justify-center space-x-2 transition';
 const ActionButton: FC<Props> = ({
   disabled,
   busy = false,
@@ -16,7 +19,7 @@ const ActionButton: FC<Props> = ({
 }): JSX.Element => {
   return (
     <button
-      className='text-highlight-dark bg-action px-6 py-2 font-semibold hover:scale-[0.97] duration-100 rounded w-full flex items-center justify-center space-x-2 transition'
+      className={clsx(commonClassNames)}
       onClick={onClick}
       disabled={disabled}
     >
