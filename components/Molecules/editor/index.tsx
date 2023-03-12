@@ -30,6 +30,7 @@ import ActionButton from 'components/Atoms/ActionButton';
 import Thumbnail from './Thumbnail';
 
 export interface FinalPost extends SeoData {
+  id?: string;
   title: string;
   content: string;
   thumbnail?: File | string;
@@ -146,14 +147,7 @@ const Editor: FC<Props> = ({
       },
     },
   });
-  useEffect(() => {
-    if (editor && selectionRange) {
-      editor.commands.setTextSelection(selectionRange);
-    }
-  }, [editor, selectionRange]);
-  useEffect(() => {
-    getImages();
-  }, []);
+
   const handleImageSelected = (result: ImageSelectionResult) => {
     editor
       ?.chain()
@@ -176,13 +170,21 @@ const Editor: FC<Props> = ({
     onSubmit({ ...post, content: editor.getHTML() });
   };
   useEffect(() => {
+    if (editor && selectionRange) {
+      editor.commands.setTextSelection(selectionRange);
+    }
+  }, [editor, selectionRange]);
+  useEffect(() => {
+    getImages();
+  }, []);
+  useEffect(() => {
     if (initialPost) {
       setPost({ ...initialPost });
       editor?.commands.setContent(initialPost.content);
       const { meta, tags, slug } = initialPost;
       setSeoInitialValue({ meta, tags, slug });
     }
-  }, [editor?.commands, initialPost]);
+  }, [editor, initialPost]);
 
   return (
     <>
